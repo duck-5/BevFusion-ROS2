@@ -1,0 +1,27 @@
+services:
+  mmdetection3d:
+    image: mantin/bevfusion:ros2
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+    #container_name: mmdetection3d
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ./static/:/mmdetection3d
+      - ./BEVFusion:/mmdetection3d/projects/BEVFusion
+      - /mmdetection3d/mmcv
+      # Graphics
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    
+    
+    network_mode: "host"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    
